@@ -36,9 +36,10 @@ cp .env.example .env
 
 ### VS Code Copilot
 
-1. Copiar `.vscode/settings.json.example` para `.vscode/settings.json`
-2. A API key é lida da variável de ambiente `OMNIROUTER_API_KEY` (definida no `.env`)
-3. Abrir o VS Code — o Copilot usa automaticamente o OmniRoute como provider
+1. O VS Code lê a API key da variável de ambiente `OMNIROUTER_API_KEY` (definida no `.env`)
+2. Abrir o VS Code — o Copilot usa automaticamente o OmniRoute como provider
+
+> 💡 O ficheiro `.vscode/settings.json` com a configuração do provider já existe no projeto (está no `.gitignore` por conter caminhos locais).
 
 ### Noutro laptop Windows
 
@@ -58,16 +59,14 @@ Tudo funciona sem alterar paths — os scripts usam `$PSScriptRoot` (diretório 
 📦 omni-route
 ├── start-omniroute.ps1     # 🚀 Servidor persistente com auto-restart
 ├── test-omniroute.ps1      # ✅ Testes aos endpoints da API
-├── generate_chat_models.py # 🔧 Gera modelos para chat (utilitário)
-├── parse_models.py         # 🔧 Análise dos modelos disponíveis
-├── models.json             # ⚙️ Catálogo de modelos (gerado automaticamente)
-├── cookies.txt             # 📝 Ficheiro local (não comitar)
-├── requirements.txt        # 📦 Dependências Python
 ├── .env                    # 🔑 API keys (NÃO comitar)
 ├── .env.example            # 📋 Template das variáveis de ambiente
+├── .gitignore              # 🙈 Ficheiros ignorados
+├── README.md               # 📖 Documentação
+├── models.json             # ⚙️ Catálogo de modelos (gerado, ignorado)
+├── cookies.txt             # 📝 Ficheiro local (ignorado)
 └── .vscode/
-    ├── settings.json        # ⚙️ Config local do VS Code (NÃO comitar)
-    └── settings.json.example# 📋 Template de config para VS Code
+    └── settings.json        # ⚙️ Config local do VS Code (ignorado)
 ```
 
 ## ⚡ Endpoints
@@ -85,4 +84,4 @@ Tudo funciona sem alterar paths — os scripts usam `$PSScriptRoot` (diretório 
 - O servidor corre na porta `20128` por omissão
 - `start-omniroute.ps1` faz auto-restart se o servidor crashar (até 10 tentativas)
 - `models.json` é gerado pelo OmniRoute — não editar manualmente
-- Seguro para commit: `.env`, `cookies.txt`, `models.json` e `.vscode/settings.json` estão no `.gitignore`
+- Seguro para commit: `.env`, `cookies.txt`, `models.json` e `.vscode/settings.json` estão no `.gitignore` — as chaves de API nunca saem da tua máquina
