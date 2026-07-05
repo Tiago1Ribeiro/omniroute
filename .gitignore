@@ -1,0 +1,23 @@
+# ─── Environment & Secrets ───
+.env
+.env.local
+*.key
+cookies.txt
+
+# ─── Python ───
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# ─── VS Code (sensitive config) ───
+.vscode/settings.json
+.vscode/*.code-snippets
+
+# ─── OS ───
+Thumbs.db
+.DS_Store
+
+# ─── Generated files ───
+models.json
