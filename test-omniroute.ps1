@@ -6,7 +6,7 @@
     Tests all available OmniRoute endpoints with the configured API key
 .NOTES
     Requires: OMNIROUTER_API_KEY in .env file
-    Run from: c:\Projectos\omni-route\
+    Run from the repository root (uses $PSScriptRoot)
 #>
 
 param(
