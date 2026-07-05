@@ -1,13 +1,20 @@
 # OmniRoute
 
-Proxy de API que unifica múltiplos providers de IA (Groq, OpenRouter, etc.) num único endpoint compatível com OpenAI, VS Code Copilot e Ollama.
+**OmniRoute** é um proxy de API que roda localmente no **Windows** e unifica múltiplos providers de IA (Groq, OpenRouter, etc.) num único endpoint compatível com OpenAI, **VS Code Copilot** e Ollama.
 
-## 🚀 Setup rápido
+> 🎯 **Para que serve?**  
+> Em vez de configurares cada ferramenta (VS Code Copilot, OpenAI clients, etc.) com endpoints e chaves diferentes, apontas tudo para `http://localhost:20128/v1` e o OmniRoute encaminha para o melhor modelo disponível.  
+> 
+> Isto permite usar o **GitHub Copilot no VS Code** com modelos como Llama, DeepSeek, Mistral ou GPT através de providers como Groq ou OpenRouter — tudo sem precisar de subscrição do GitHub Copilot.
+
+## 🚀 Setup rápido (Windows + VS Code)
 
 ```powershell
-# 1. Configurar API keys
+# 1. Clonar e configurar
+git clone https://github.com/Tiago1Ribeiro/omniroute.git
+cd omniroute
 cp .env.example .env
-# Editar .env com as tuas chaves
+# Editar .env com as tuas chaves de API
 
 # 2. Iniciar servidor
 .\start-omniroute.ps1
@@ -25,26 +32,42 @@ cp .env.example .env
 | `GROQ_API_KEY` | Provider primário (mais rápido) |
 | `OPENROUTER_API_KEY` | Provider fallback (mais modelos) |
 | `HS_API_KEY` | Hallucinating Splines API |
-| `OMNIROUTER_API_KEY` | Chave local para o VS Code |
+| `OMNIROUTER_API_KEY` | Chave local de autenticação |
 
 ### VS Code Copilot
 
 1. Copiar `.vscode/settings.json.example` para `.vscode/settings.json`
-2. Garantir que a variável `OMNIROUTER_API_KEY` está definida no ambiente
+2. A API key é lida da variável de ambiente `OMNIROUTER_API_KEY` (definida no `.env`)
+3. Abrir o VS Code — o Copilot usa automaticamente o OmniRoute como provider
+
+### Noutro laptop Windows
+
+```powershell
+git clone https://github.com/Tiago1Ribeiro/omniroute.git
+cd omniroute
+cp .env.example .env
+# Preencher as mesmas chaves de API
+.\start-omniroute.ps1
+```
+
+Tudo funciona sem alterar paths — os scripts usam `$PSScriptRoot` (diretório relativo).
 
 ## 📁 Estrutura
 
 ```
 📦 omni-route
-├── start-omniroute.ps1    # Servidor persistente com auto-restart
-├── test-omniroute.ps1     # Suite de testes da API
-├── generate_chat_models.py# Gera modelos para chat a partir de models.json
-├── parse_models.py        # Análise dos modelos disponíveis
-├── models.json            # Catálogo de modelos (gerado)
-├── cookies.txt            # Ficheiro de cookies (local)
-├── .env                   # API keys (NÃO comitar)
+├── start-omniroute.ps1     # 🚀 Servidor persistente com auto-restart
+├── test-omniroute.ps1      # ✅ Testes aos endpoints da API
+├── generate_chat_models.py # 🔧 Gera modelos para chat (utilitário)
+├── parse_models.py         # 🔧 Análise dos modelos disponíveis
+├── models.json             # ⚙️ Catálogo de modelos (gerado automaticamente)
+├── cookies.txt             # 📝 Ficheiro local (não comitar)
+├── requirements.txt        # 📦 Dependências Python
+├── .env                    # 🔑 API keys (NÃO comitar)
+├── .env.example            # 📋 Template das variáveis de ambiente
 └── .vscode/
-    └── settings.json      # Config VS Code (NÃO comitar)
+    ├── settings.json        # ⚙️ Config local do VS Code (NÃO comitar)
+    └── settings.json.example# 📋 Template de config para VS Code
 ```
 
 ## ⚡ Endpoints
@@ -58,6 +81,8 @@ cp .env.example .env
 
 ## 📋 Notas
 
+- Desenvolvido para **Windows + VS Code**
 - O servidor corre na porta `20128` por omissão
-- `start-omniroute.ps1` faz auto-restart se o servidor crashar
-- `models.json` é gerado pelo OmniRoute e não deve ser editado manualmente
+- `start-omniroute.ps1` faz auto-restart se o servidor crashar (até 10 tentativas)
+- `models.json` é gerado pelo OmniRoute — não editar manualmente
+- Seguro para commit: `.env`, `cookies.txt`, `models.json` e `.vscode/settings.json` estão no `.gitignore`
